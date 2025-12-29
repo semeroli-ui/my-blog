@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}首页 - 我的科技博客{% endblock %}
+
+{% block content %}
+<!-- 新的科技感英雄区开始 -->
+<section class="hero-section" style="
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+    color: #fff;
+    padding: 4rem 0;
+    margin-bottom: 2rem;
+    border-radius: 0 0 20px 20px;
+    position: relative;
+    overflow: hidden;
+">
+    <!-- 动态网格背景（简化版） -->
+    <div class="grid-bg" style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            linear-gradient(rgba(15, 240, 252, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(15, 240, 252, 0.05) 1px, transparent 1px);
+        background-size: 50px 50px;
+        z-index: 0;
+    "></div>
+
+    <div class="container position-relative" style="z-index: 1;">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h6 class="text-uppercase mb-3" style="color: #0ff0fc; letter-spacing: 3px;">
+                    <i class="bi bi-activity me-2"></i>探索技术与思想的边界
+                </h6>
+                <h1 class="display-4 fw-bold mb-4" style="
+                    text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+                    color: #fff;
+                ">
+                    欢迎来到未来日志
+                </h1>
+                <p class="lead mb-4" style="color: #a0a0d0;">
+                    这里记录着关于编程、创新与未来科技的深度思考与实践。用代码构建世界，用文字记录旅程。
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{{ url_for('write_post') }}" class="btn btn-primary btn-lg px-4" style="
+                        background: linear-gradient(45deg, #bc13fe, #0ff0fc);
+                        border: none;
+                        font-weight: 500;
+                    ">
+                        <i class="bi bi-pencil-square me-2"></i>开始创作
+                    </a>
+                    <a href="#latest-posts" class="btn btn-outline-light btn-lg px-4">
+                        <i class="bi bi-arrow-down me-2"></i>探索文章
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center">
+                <!-- 可以放置一个动态图标或3D图形 -->
+                <div class="mt-4 mt-lg-0">
+                    <i class="bi bi-cpu" style="font-size: 8rem; color: #0ff0fc; opacity: 0.7;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 英雄区结束 -->
+
+<!-- 博客核心内容区：最新文章 -->
+<section id="latest-posts" class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="mb-3">
+                <i class="bi bi-newspaper me-2"></i>最新文章
+            </h2>
+            <p class="text-muted">探索最新的技术见解与创作</p>
+        </div>
+    </div>
+
+    {% if posts %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for post in posts %}
+        <div class="col">
+            <div class="card h-100 shadow-sm post-card" style="
+                border: 1px solid rgba(15, 240, 252, 0.2);
+                border-radius: 15px;
+                transition: all 0.3s ease;
+                background: rgba(255, 255, 255, 0.02);
+                backdrop-filter: blur(10px);
+            ">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h5 class="card-title fw-bold" style="color: #0ff0fc;">{{ post['title'] }}</h5>
+                        <span class="badge" style="background: linear-gradient(45deg, #bc13fe, #0ff0fc);">#{{ post['id'] }}</span>
+                    </div>
+                    <p class="card-text text-muted">
+                        {{ post['content'][:120] }}{% if post['content']|length > 120 %}...{% endif %}
+                    </p>
+                </div>
+                <div class="card-footer" style="
+                    background: transparent;
+                    border-top: 1px solid rgba(15, 240, 252, 0.1);
+                ">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">
+                            <i class="bi bi-calendar3 me-1"></i>
+                            {{ post['created_at'][:10] }}
+                        </small>
+                        <a href="{{ url_for('show_post', post_id=post['id']) }}" class="btn btn-sm btn-outline-primary">阅读全文</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5 my-5">
+        <div class="mb-4">
+            <i class="bi bi-file-earmark-text" style="font-size: 4rem; color: #6c757d;"></i>
+        </div>
+        <h3 class="text-muted mb-3">还没有文章呢</h3>
+        <p class="text-muted mb-4">开始你的写作之旅，记录你的第一个想法吧！</p>
+        <a href="{{ url_for('write_post') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2"></i>创建第一篇文章
+        </a>
+    </div>
+    {% endif %}
+</section>
+
+<!-- 可选：特性展示区域 -->
+<section class="container my-5 py-5">
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="p-4 rounded-3" style="background: rgba(15, 240, 252, 0.1);">
+                <i class="bi bi-lightning-charge" style="font-size: 2.5rem; color: #0ff0fc;"></i>
+                <h5 class="mt-3">快速响应</h5>
+                <p class="text-muted">基于Flask与Gunicorn构建，提供流畅的阅读体验。</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="p-4 rounded-3" style="background: rgba(188, 19, 254, 0.1);">
+                <i class="bi bi-shield-check" style="font-size: 2.5rem; color: #bc13fe;"></i>
+                <h5 class="mt-3">安全稳定</h5>
+                <p class="text-muted">部署于云端，数据安全可靠，持续为您服务。</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="p-4 rounded-3" style="background: rgba(0, 255, 65, 0.1);">
+                <i class="bi bi-phone" style="font-size: 2.5rem; color: #00ff41;"></i>
+                <h5 class="mt-3">响应式设计</h5>
+                <p class="text-muted">在任何设备上都能获得完美的浏览效果。</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* 为文章卡片添加悬停效果，增强科技感 */
+    .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(15, 240, 252, 0.2);
+        border-color: #0ff0fc;
+    }
+
+    /* 平滑滚动 */
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
+{% endblock %}
