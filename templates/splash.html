@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroBlog | 智能技术博客门户</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --neon-blue: #0ff0fc;
+            --neon-purple: #bc13fe;
+            --matrix-green: #00ff41;
+            --cyber-dark: #0a0a0f;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Orbitron', sans-serif;
+            background-color: var(--cyber-dark);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(11, 11, 25, 0.8) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(188, 19, 254, 0.1) 0%, transparent 20%);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* 动态网格背景 */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(15, 240, 252, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 240, 252, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            animation: gridMove 20s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        /* 霓虹文字效果 */
+        .neon-text {
+            color: #fff;
+            text-shadow: 
+                0 0 7px #fff,
+                0 0 10px #fff,
+                0 0 21px #fff,
+                0 0 42px var(--neon-blue),
+                0 0 82px var(--neon-blue),
+                0 0 92px var(--neon-blue);
+            animation: neonPulse 1.5s infinite alternate;
+        }
+        
+        @keyframes neonPulse {
+            from { text-shadow: 0 0 5px #fff; }
+            to { text-shadow: 
+                0 0 10px #fff,
+                0 0 20px #fff,
+                0 0 30px var(--neon-blue),
+                0 0 40px var(--neon-blue),
+                0 0 50px var(--neon-blue);
+            }
+        }
+        
+        /* 数据流效果 */
+        .data-stream {
+            position: absolute;
+            color: var(--matrix-green);
+            font-family: monospace;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0.7;
+            z-index: -1;
+        }
+        
+        /* 3D卡片效果 */
+        .hologram-card {
+            background: rgba(20, 20, 40, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(15, 240, 252, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        
+        .hologram-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(15, 240, 252, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .hologram-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(15, 240, 252, 0.4);
+        }
+        
+        .hologram-card:hover::before {
+            left: 100%;
+        }
+        
+        /* 科技感按钮 */
+        .cyber-btn {
+            background: linear-gradient(45deg, transparent 5%, var(--neon-purple) 5%);
+            border: 0;
+            color: #fff;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            box-shadow: 6px 0px 0px var(--neon-blue);
+            outline: transparent;
+            position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            transition: all 0.3s;
+        }
+        
+        .cyber-btn:hover {
+            background: linear-gradient(45deg, transparent 5%, var(--neon-blue) 5%);
+            box-shadow: 6px 0px 0px var(--neon-purple);
+            transform: translateY(-3px);
+        }
+        
+        /* 进度环 */
+        .progress-ring {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+        
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .hologram-card {
+                padding: 1.5rem;
+            }
+            .display-1 {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 动态背景元素 -->
+    <div class="grid-bg"></div>
+    
+    <!-- 数据流动画 -->
+    <div id="dataStreamContainer"></div>
+    
+    <!-- 主内容 -->
+    <div class="container py-5">
+        <!-- 头部导航 -->
+        <nav class="navbar navbar-expand-lg navbar-dark mb-5">
+            <div class="container-fluid">
+                <a class="navbar-brand neon-text fs-3" href="#">
+                    <i class="bi bi-cpu-fill me-2"></i>NeuroBlog
+                </a>
+                <div class="d-flex">
+                    <span class="badge bg-gradient px-3 py-2 me-3" style="background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue));">
+                        <i class="bi bi-lightning-charge-fill me-1"></i>AI-Powered
+                    </span>
+                    <a href="{{ url_for('index') }}" class="btn btn-outline-light">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>进入博客
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- 英雄区域 -->
+        <div class="row align-items-center min-vh-50 py-5">
+            <div class="col-lg-6">
+                <h6 class="text-uppercase mb-3" style="color: var(--neon-blue); letter-spacing: 3px;">
+                    <i class="bi bi-activity me-2"></i>下一代技术博客平台
+                </h6>
+                <h1 class="display-1 fw-bold neon-text mb-4">
+                    思想遇见
+                    <span class="d-block">代码</span>
+                </h1>
+                <p class="lead mb-4" style="color: #a0a0d0;">
+                    一个由人工智能增强的技术写作空间，融合了区块链级的安全性与神经网络的智能内容推荐，为开发者打造的未来主义知识枢纽。
+                </p>
+                <div class="d-flex gap-3 mb-5">
+                    <a href="{{ url_for('index') }}" class="cyber-btn">
+                        <i class="bi bi-rocket-takeoff me-2"></i>立即体验
+                    </a>
+                    <a href="#features" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-info-circle me-2"></i>了解更多
+                    </a>
+                </div>
+                
+                <!-- 实时数据 -->
+                <div class="row g-3">
+                    <div class="col-4">
+                        <div class="text-center">
+                            <h3 class="fw-bold" style="color: var(--matrix-green);" id="postCount">12</h3>
+                            <small class="text-muted">技术文章</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-center">
+                            <h3 class="fw-bold" style="color: var(--neon-blue);" id="aiProcess">94%</h3>
+                            <small class="text-muted">AI智能分析</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-center">
+                            <h3 class="fw-bold" style="color: var(--neon-purple);">∞</h3>
+                            <small class="text-muted">扩展可能</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="hologram-card p-4">
+                    <!-- 3D进度环 -->
+                    <div class="progress-ring mx-auto mb-4">
+                        <svg viewBox="0 0 120 120">
+                            <circle cx="60" cy="60" r="52" stroke="rgba(255,255,255,0.1)" stroke-width="8"/>
+                            <circle id="progressCircle" cx="60" cy="60" r="52" stroke="url(#gradient)" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="65"/>
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="var(--neon-purple)" />
+                                    <stop offset="100%" stop-color="var(--neon-blue)" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="position-absolute top-50 start-50 translate-middle text-center">
+                            <i class="bi bi-cpu-fill fs-1" style="color: var(--neon-blue);"></i>
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-center mb-3">
+                        <i class="bi bi-shield-check me-2"></i>系统状态
+                    </h4>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <small>安全等级</small>
+                            <small id="securityLevel">量子加密</small>
+                        </div>
+                        <div class="progress" style="height: 6px; background: rgba(255,255,255,0.1);">
+                            <div class="progress-bar bg-gradient" style="width: 95%; background: linear-gradient(90deg, var(--matrix-green), var(--neon-blue));"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <small>响应速度</small>
+                            <small id="responseSpeed">4.2ms</small>
+                        </div>
+                        <div class="progress" style="height: 6px; background: rgba(255,255,255,0.1);">
+                            <div class="progress-bar bg-gradient" style="width: 88%; background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));"></div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <div class="d-inline-block px-3 py-1 rounded-pill" style="background: rgba(0, 255, 65, 0.1); border: 1px solid var(--matrix-green);">
+                            <small>
+                                <i class="bi bi-check-circle me-1"></i>
+                                <span id="connectionStatus">量子隧道已建立</span>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 特性展示 -->
+        <div id="features" class="row g-4 py-5">
+            <div class="col-12 text-center mb-5">
+                <h2 class="neon-text mb-3">核心特性</h2>
+                <p class="text-muted">体验下一代博客平台的尖端技术</p>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="hologram-card h-100">
+                    <div class="text-center mb-4">
+                        <div class="rounded-circle d-inline-flex p-3" style="background: rgba(15, 240, 252, 0.1);">
+                            <i class="bi bi-shield-lock fs-1" style="color: var(--neon-blue);"></i>
+                        </div>
+                    </div>
+                    <h4 class="text-center mb-3">Cloudflare集成</h4>
+                    <p class="text-center" style="color: #a0a0d0;">
+                        集成Cloudflare Turnstile，提供智能、无干扰的人机验证，确保每次交互都安全可靠，阻止自动化攻击。
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="hologram-card h-100">
+                    <div class="text-center mb-4">
+                        <div class="rounded-circle d-inline-flex p-3" style="background: rgba(188, 19, 254, 0.1);">
+                            <i class="bi bi-robot fs-1" style="color: var(--neon-purple);"></i>
+                        </div>
+                    </div>
+                    <h4 class="text-center mb-3">AI智能助手</h4>
+                    <p class="text-center" style="color: #a0a0d0;">
+                        内嵌AI写作助手，可实时分析文章结构、提供优化建议、检查代码语法，提升技术文章质量。
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="hologram-card h-100">
+                    <div class="text-center mb-4">
+                        <div class="rounded-circle d-inline-flex p-3" style="background: rgba(0, 255, 65, 0.1);">
+                            <i class="bi bi-braces fs-1" style="color: var(--matrix-green);"></i>
+                        </div>
+                    </div>
+                    <h4 class="text-center mb-3">实时协同</h4>
+                    <p class="text-center" style="color: #a0a0d0;">
+                        基于WebSocket的实时协同编辑，支持多人在线协作撰写技术文档，变更实时同步。
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 行动号召 -->
+        <div class="text-center py-5">
+            <div class="hologram-card border-dashed mx-auto" style="max-width: 800px; border-style: dashed !important;">
+                <h3 class="mb-3">准备进入未来？</h3>
+                <p class="mb-4" style="color: #a0a0d0;">
+                    加入 <span class="neon-text">NeuroBlog</span>，体验人工智能增强的技术写作。完全免费，即刻开始。
+                </p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{{ url_for('index') }}" class="cyber-btn px-4">
+                        <i class="bi bi-door-open me-2"></i>进入主博客
+                    </a>
+                    <a href="{{ url_for('write_post') }}" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-pencil-square me-2"></i>开始写作
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 页脚 -->
+    <footer class="text-center py-4 border-top border-secondary" style="border-color: rgba(15, 240, 252, 0.2) !important;">
+        <div class="container">
+            <p class="mb-2" style="color: #a0a0d0;">
+                <i class="bi bi-c-circle me-1"></i> 2023 NeuroBlog. 基于Flask构建的未来主义博客平台.
+            </p>
+            <p class="text-muted small">
+                <span id="liveClock" class="me-3"></span>
+                <span>服务器状态: <span class="text-success">●</span> 在线</span>
+            </p>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 动态数据流
+        function createDataStream() {
+            const container = document.getElementById('dataStreamContainer');
+            const chars = '01{}[]()<>;:=+-*/\'"`~!@#$%^&|\\?_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            
+            for (let i = 0; i < 20; i++) {
+                const stream = document.createElement('div');
+                stream.className = 'data-stream';
+                stream.style.left = Math.random() * 100 + 'vw';
+                stream.style.top = '-50px';
+                stream.style.animationDelay = Math.random() * 5 + 's';
+                stream.textContent = Array(20).fill(0).map(() => chars[Math.floor(Math.random() * chars.length)]).join('');
+                
+                container.appendChild(stream);
+                
+                // 动画
+                const duration = 10 + Math.random() * 20;
+                stream.animate([
+                    { top: '-50px', opacity: 0 },
+                    { opacity: 0.7 },
+                    { top: '100vh', opacity: 0 }
+                ], {
+                    duration: duration * 1000,
+                    iterations: Infinity
+                });
+            }
+        }
+        
+        // 动态数字增长
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                element.innerText = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+        
+        // 实时时钟
+        function updateClock() {
+            const now = new Date();
+            const clock = document.getElementById('liveClock');
+            clock.textContent = now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+            
+            // 模拟数据变化
+            document.getElementById('responseSpeed').textContent = (3.8 + Math.random() * 0.8).toFixed(1) + 'ms';
+        }
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 创建数据流背景
+            createDataStream();
+            
+            // 动画数字
+            animateValue(document.getElementById('postCount'), 0, 12, 2000);
+            
+            // 进度环动画
+            const circle = document.getElementById('progressCircle');
+            circle.style.strokeDashoffset = 65; // 80%进度
+            
+            // 状态变化效果
+            const statuses = ['量子隧道已建立', '神经连接稳定', '数据同步中', '加密通道活跃'];
+            let statusIndex = 0;
+            setInterval(() => {
+                document.getElementById('connectionStatus').textContent = statuses[statusIndex];
+                statusIndex = (statusIndex + 1) % statuses.length;
+            }, 3000);
+            
+            // 启动时钟
+            updateClock();
+            setInterval(updateClock, 1000);
+            
+            // 3D鼠标跟随效果
+            const cards = document.querySelectorAll('.hologram-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateY = (x - centerX) / 25;
+                    const rotateX = (centerY - y) / 25;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

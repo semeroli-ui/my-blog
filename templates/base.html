@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人博客</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- 自定义CSS -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            padding: 3rem 2rem;
+        }
+        .post-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .post-title {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        .footer {
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+            background-color: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square me-2" viewBox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                </svg>
+                我的博客
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">写文章</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">关于</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main class="container">
+        <!-- 成功消息提示 -->
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            欢迎来到我的博客！
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        
+        <!-- 英雄区域 -->
+        <div class="hero-section">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="display-4 fw-bold">欢迎来到我的个人博客</h1>
+                    <p class="lead">分享技术、生活和思考</p>
+                    <a href="#" class="btn btn-light btn-lg mt-3">开始阅读</a>
+                </div>
+                <div class="col-md-4 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-journal-text" viewBox="0 0 16 16" style="opacity: 0.8;">
+                        <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                        <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+                        <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 文章列表 -->
+        <div class="row">
+            <div class="col-md-8">
+                <h2 class="mb-4">最新文章</h2>
+                
+                <!-- 示例文章卡片 -->
+                <div class="card post-card">
+                    <div class="card-body">
+                        <h3 class="post-title">Flask应用部署的最佳实践</h3>
+                        <p class="text-muted">发布于 2023年10月15日 • 技术 • 5分钟阅读</p>
+                        <p>本文将介绍如何将Flask应用部署到生产环境，包括服务器配置、数据库设置和性能优化等方面的最佳实践。</p>
+                        <a href="#" class="btn btn-outline-primary">阅读全文</a>
+                    </div>
+                </div>
+                
+                <div class="card post-card">
+                    <div class="card-body">
+                        <h3 class="post-title">Python异步编程入门</h3>
+                        <p class="text-muted">发布于 2023年10月10日 • 编程 • 8分钟阅读</p>
+                        <p>异步编程是现代Python开发中的重要概念。本文将介绍asyncio库的基本用法，以及如何编写高效的异步代码。</p>
+                        <a href="#" class="btn btn-outline-primary">阅读全文</a>
+                    </div>
+                </div>
+                
+                <div class="card post-card">
+                    <div class="card-body">
+                        <h3 class="post-title">前端开发趋势2023</h3>
+                        <p class="text-muted">发布于 2023年10月5日 • 前端 • 6分钟阅读</p>
+                        <p>回顾2023年前端开发的主要趋势，包括新的框架、工具和开发模式，以及对未来发展的展望。</p>
+                        <a href="#" class="btn btn-outline-primary">阅读全文</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 侧边栏 -->
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">关于我</h5>
+                        <p class="card-text">一名热爱技术的开发者，喜欢分享学习心得和技术经验。</p>
+                        <a href="#" class="btn btn-primary">了解更多</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">分类</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-decoration-none">技术 (12)</a></li>
+                            <li><a href="#" class="text-decoration-none">编程 (8)</a></li>
+                            <li><a href="#" class="text-decoration-none">生活 (5)</a></li>
+                            <li><a href="#" class="text-decoration-none">读书笔记 (3)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">
+                © 2023 我的个人博客. 使用Flask构建. | 
+                <span class="text-muted">当前时间: 2023年10月20日 15:30:00</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- 自定义JS -->
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有文章卡片添加点击效果
+            const cards = document.querySelectorAll('.post-card');
+            cards.forEach(card => {
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', function(e) {
+                    // 防止点击链接时触发卡片点击
+                    if (e.target.tagName !== 'A' && !e.target.closest('a')) {
+                        const link = card.querySelector('a');
+                        if (link) {
+                            window.location.href = link.href;
+                        }
+                    }
+                });
+            });
+            
+            // 自动隐藏alert提示框
+            setTimeout(() => {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(alert => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    setTimeout(() => bsAlert.close(), 3000);
+                });
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

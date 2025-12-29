@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}写文章 - 我的博客{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square me-2" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                        </svg>
+                        撰写新文章
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('write_post') }}">
+                        <div class="mb-4">
+                            <label for="title" class="form-label fw-bold">文章标题</label>
+                            <input type="text" class="form-control form-control-lg" id="title" name="title" 
+                                   placeholder="输入文章标题（最多100字）" maxlength="100" required>
+                            <div class="form-text">一个好的标题能吸引更多读者</div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="content" class="form-label fw-bold">文章内容</label>
+                            <textarea class="form-control" id="content" name="content" rows="12" 
+                                      placeholder="在这里写下你的想法、心得或知识分享..." required></textarea>
+                            <div class="form-text">支持Markdown格式，可以使用**粗体**、*斜体*等</div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">写作提示</label>
+                            <div class="alert alert-info">
+                                <small>
+                                    <strong>写作建议：</strong><br>
+                                    1. 开头简要介绍文章主题<br>
+                                    2. 主体部分分点论述<br>
+                                    3. 结尾总结要点或提出问题<br>
+                                    4. 适当添加代码示例（使用```代码块```）
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary px-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle me-2" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                                取消
+                            </a>
+                            <button type="submit" class="btn btn-primary px-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send me-2" viewBox="0 0 16 16">
+                                    <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                </svg>
+                                发布文章
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card mt-4 border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-lightbulb me-2" viewBox="0 0 16 16">
+                            <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6zm6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1z"/>
+                        </svg>
+                        写作技巧
+                    </h5>
+                    <ul class="text-muted">
+                        <li><strong>明确主题</strong>：一篇文章讲清楚一个知识点</li>
+                        <li><strong>结构清晰</strong>：使用标题、段落和列表组织内容</li>
+                        <li><strong>代码示例</strong>：技术文章要提供可运行的代码</li>
+                        <li><strong>总结回顾</strong>：结尾简要总结全文要点</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const titleInput = document.getElementById('title');
+    const contentInput = document.getElementById('content');
+    const form = document.querySelector('form');
+    
+    // 标题字数统计
+    titleInput.addEventListener('input', function() {
+        const count = this.value.length;
+        const counter = document.getElementById('title-counter') || (function() {
+            const div = document.createElement('div');
+            div.id = 'title-counter';
+            div.className = 'form-text text-end';
+            titleInput.parentNode.appendChild(div);
+            return div;
+        })();
+        counter.textContent = `${count}/100 字`;
+        counter.style.color = count > 90 ? '#dc3545' : '#6c757d';
+    });
+    
+    // 内容字数统计
+    contentInput.addEventListener('input', function() {
+        const count = this.value.length;
+        const counter = document.getElementById('content-counter') || (function() {
+            const div = document.createElement('div');
+            div.id = 'content-counter';
+            div.className = 'form-text text-end';
+            contentInput.parentNode.appendChild(div);
+            return div;
+        })();
+        
+        const readingTime = Math.ceil(count / 200);
+        counter.textContent = `${count} 字 | 约 ${readingTime} 分钟阅读`;
+        counter.style.color = count > 5000 ? '#dc3545' : '#6c757d';
+    });
+    
+    // 表单提交验证
+    form.addEventListener('submit', function(e) {
+        if (!titleInput.value.trim()) {
+            e.preventDefault();
+            alert('请填写文章标题');
+            titleInput.focus();
+            return false;
+        }
+        
+        if (!contentInput.value.trim()) {
+            e.preventDefault();
+            alert('请填写文章内容');
+            contentInput.focus();
+            return false;
+        }
+        
+        if (contentInput.value.trim().length < 50) {
+            if (!confirm('文章内容较短，确认发布吗？')) {
+                e.preventDefault();
+                return false;
+            }
+        }
+        
+        return true;
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}
